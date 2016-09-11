@@ -21,40 +21,25 @@ module.exports = NodeHelper.create({
 	  
 
 		/* updateTimetable(transports)
-		 * Calls processTrains on succesfull response.
+		 * Calls processTransports on succesfull response.
 		 */
 		updateTimetable: function() {
-			var url = this.config.apiBase + 'departureList' // List all departures for given station
+			var url = this.config.apiBase 
 			var self = this;
 			var retry = true;
-			var data = {
-			  "station": {
-			  "type": "STATION",
-			  "id": this.config.id,
-			  },
-			   "time": {
-			   },
-			   "maxList": this.config.maximumEntries,
-			   "useRealtime": this.config.useRealtime,
-			   "maxTimeOffset": this.config.maxTimeOffset
-			};
 
 		    unirest.post(url)
-		    .headers({
-		      'Content-Type': 'application/json;charset=UTF-8',
-		      'geofox-auth-user': this.config.apiUser,
-		      'geofox-auth-signature': self.getSignature(data)
-		    })
+		   
 		    .send(JSON.stringify(data))
 		    .end(function (r) {
 		    	if (r.error) {
 		    		self.updateDom(this.config.animationSpeed);
-		    		//console.log(self.name + " : " + r.error);
+		    		console.log(self.name + " : " + r.error);
 		    		retry = false;
 		    	}
 		    	else {
-		    		//console.log("body: ", JSON.stringify(r.body));
-		    		self.processTrains(r.body);
+		    		console.log("body: ", JSON.stringify(r.body));
+		    		self.processTransports(r.body);
 		    	}
 
 		    	if (retry) {
@@ -63,29 +48,19 @@ module.exports = NodeHelper.create({
 		    });
 		},
 
-		/* processTrains(data)
+		/* processTransports(data)
 		 * Uses the received data to set the various values.
 		 */
 		processTransports: function(data) {
 			this.transports = [];
-			var time = data.time.time.split(':')
-			hours = time[0];
-			mins = time[1];
-			var datetime = new Date(this.parseDate(data.time.date));
-			datetime.setHours(hours);
-			datetime.setMinutes(mins);
-			for (var i = 0, count = data.departures.length; i < count; i++) {
+		
+		    this.lineInfo = data.informations.type + " " + data.informations.line + " (vers " + data.informations.destination.name + ")";
+			for (var i = 0, count = data.schedules.length; i < count; i++) {
 
-				var trains = data.departures[i];
+				var nextTransport = data.schedules[i];
 
-				var departureTime = datetime.setMinutes(datetime.getMinutes() + trains.timeOffset);
-				this.trains.push({
-
-					departureTimestamp: trains.timeOffset,
-					delay: '',
-					name: trains.line.name,
-					to: trains.line.direction
-
+				this.transports.push({
+								next: nextTransport.message
 				});
 			}
 			this.loaded = true;

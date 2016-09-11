@@ -12,8 +12,6 @@ Module.register("MMM-Ratp",{
 
 	// Define module defaults
 	defaults: {
-		maximumEntries: 10, // Total Maximum Entries
-		maxTimeOffset: 200, // Max time in the future for entries
 		useRealtime: true,
 		updateInterval: 1 * 60 * 1000, // Update every minute.
 		animationSpeed: 2000,
