@@ -24,7 +24,6 @@
   },
   "homepage": "https://github.com/lgmorand/MMM-Ratp#readme",
   "dependencies": {
-    "unirest": "latest",
-    "node-forge": "latest"
+    "unirest": "latest"
     }
 }

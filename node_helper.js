@@ -15,7 +15,8 @@ const unirest = require('unirest');
 module.exports = NodeHelper.create({
 
 		start: function () {
-	    this.started = false;
+	    		this.started = false;
+			console.log("NodeH started");
 	  	},
 
 	  
@@ -24,9 +25,13 @@ module.exports = NodeHelper.create({
 		 * Calls processTransports on succesfull response.
 		 */
 		updateTimetable: function() {
-			var url = this.config.apiBase 
+			var url = this.config.apiURL 
 			var self = this;
-			var retry = true;
+			var retry = false;
+
+			if(this.config.debugging) {			
+				Log.info("Function updateTimeTable");
+			}
 
 		    unirest.post(url)
 		   
@@ -34,11 +39,11 @@ module.exports = NodeHelper.create({
 		    .end(function (r) {
 		    	if (r.error) {
 		    		self.updateDom(this.config.animationSpeed);
-		    		console.log(self.name + " : " + r.error);
+		    		// console.log(self.name + " : " + r.error);
 		    		retry = false;
 		    	}
 		    	else {
-		    		console.log("body: ", JSON.stringify(r.body));
+		    		// console.log("body: ", JSON.stringify(r.body));
 		    		self.processTransports(r.body);
 		    	}
 
@@ -52,9 +57,13 @@ module.exports = NodeHelper.create({
 		 * Uses the received data to set the various values.
 		 */
 		processTransports: function(data) {
+			if(this.config.debugging) {			
+				Log.info("Processing transports:" + data);
+			}
+
 			this.transports = [];
 		
-		    this.lineInfo = data.informations.type + " " + data.informations.line + " (vers " + data.informations.destination.name + ")";
+		    this.lineInfo = "test"; //data.informations.type + " " + data.informations.line + " (vers " + data.informations.destination.name + ")";
 			for (var i = 0, count = data.schedules.length; i < count; i++) {
 
 				var nextTransport = data.schedules[i];
@@ -85,7 +94,12 @@ module.exports = NodeHelper.create({
 		},
 
 		socketNotificationReceived: function(notification, payload) {
-		  const self = this;
+		  Log.info("Notif received: " + notification);
+			const self = this;
+			if(this.config.debugging) {			
+				Log.info("Notif received: " + notification);
+				Log.info(payload);
+			}
 		  if (notification === 'CONFIG' && this.started == false) {
 		    this.config = payload;	     
 		    this.started = true;

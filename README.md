@@ -1,6 +1,7 @@
 # MMM-Ratp
 Local transport in Paris module for MagicMirror², a projet created by Michael Teeuw (https://github.com/MichMich/MagicMirror)
 
+It will give the timetable of the next bus/rer/metro of the station of your choice
 
 
 # RATP OpenData 
