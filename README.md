@@ -18,7 +18,7 @@ The API is available here and this module is based on this API: http://api-ratp.
 
 # Configuration 
 
-To get bus timetable, you'll need to specify the transport line, the station and the destination. These information will have to be specified in the configuration ([MMM-Ratp.jshttps://github.com/lgmorand/MMM-Ratp/blob/master/MMM-Ratp.js#L14-L23
+To get bus timetable, you'll need to specify the transport line, the station and the destination. These information will have to be specified in the configuration ([https://github.com/lgmorand/MMM-Ratp/blob/master/MMM-Ratp.js#L14-L23]())
 
 First you need to specify which kind of line of transport you want to retrieve. You can have:
 - Bus (transporttype: bus, [bus lines](http://api-ratp.pierre-grimaud.fr/v2/bus/))
@@ -29,9 +29,9 @@ First you need to specify which kind of line of transport you want to retrieve. 
 
 Each URL listed before will help you to get the type of the desired line, the ID of the line and even the direction which will be used to build the API URL
 
-Then, you must find the station you want to watch out. You need to find your line API and suffix the URL with the "stations" keyword: http://api-ratp.pierre-grimaud.fr/v2/[TRANSPORT TYPE]/[TRANSPORT LINE]/stations
+Then, you must find the station you want to watch out. You need to find your line API and suffix the URL with the "stations" keyword: [http://api-ratp.pierre-grimaud.fr/v2/[TRANSPORT TYPE]/[TRANSPORT LINE]/stations]()
 
-Example: [http://api-ratp.pierre-grimaud.fr/v2/bus/176/stations]()
+Example: http://api-ratp.pierre-grimaud.fr/v2/bus/176/stations
 
 
 # Samples 
@@ -41,4 +41,4 @@ Here are some screenshot
 
 # Further information and support 
 
-Please use the forum of magic mirror² [https://forum.magicmirror.builders/]()
+Please use the forum of magic mirror² https://forum.magicmirror.builders/
