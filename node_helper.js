@@ -29,8 +29,8 @@ module.exports = NodeHelper.create({
 			var self = this;
 			var retry = false;
 
-			if(this.config.debugging) {			
-				Log.info("Function updateTimeTable");
+			if(this.config.debugging) {
+				console.log("Function updateTimeTable");
 			}
 
 		    unirest.post(url)
@@ -57,8 +57,8 @@ module.exports = NodeHelper.create({
 		 * Uses the received data to set the various values.
 		 */
 		processTransports: function(data) {
-			if(this.config.debugging) {			
-				Log.info("Processing transports:" + data);
+			if(this.config.debugging) {
+				console.log("Processing transports:" + data);
 			}
 
 			this.transports = [];
@@ -94,11 +94,11 @@ module.exports = NodeHelper.create({
 		},
 
 		socketNotificationReceived: function(notification, payload) {
-		  Log.info("Notif received: " + notification);
+			console.log("Notif received: " + notification);
 			const self = this;
-			if(this.config.debugging) {			
-				Log.info("Notif received: " + notification);
-				Log.info(payload);
+			if(this.config.debugging) {
+				console.log("Notif received: " + notification);
+				console.log(payload);
 			}
 		  if (notification === 'CONFIG' && this.started == false) {
 		    this.config = payload;	     
