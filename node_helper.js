@@ -33,9 +33,7 @@ module.exports = NodeHelper.create({
 				console.log("Function updateTimeTable");
 			}
 
-		    unirest.post(url)
-		   
-		    .send(JSON.stringify(data))
+		    unirest.get(url)
 		    .end(function (r) {
 		    	if (r.error) {
 		    		self.updateDom(this.config.animationSpeed);
@@ -64,9 +62,9 @@ module.exports = NodeHelper.create({
 			this.transports = [];
 		
 		    this.lineInfo = "test"; //data.informations.type + " " + data.informations.line + " (vers " + data.informations.destination.name + ")";
-			for (var i = 0, count = data.schedules.length; i < count; i++) {
+			for (var i = 0, count = data.response.schedules.length; i < count; i++) {
 
-				var nextTransport = data.schedules[i];
+				var nextTransport = data.response.schedules[i];
 
 				this.transports.push({
 								next: nextTransport.message
