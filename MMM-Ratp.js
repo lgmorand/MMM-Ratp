@@ -8,7 +8,7 @@
  * MIT Licensed.
  */
  
-Module.register("MMM-Test",{
+Module.register("MMM-Ratp",{
 
 	transports:[],
 
@@ -24,7 +24,7 @@ Module.register("MMM-Test",{
 
 	// Define required scripts.
 	getStyles: function() {
-		return ["MMM-Ratp.css"];
+		return [this.file("css/MMM-Ratp.css")];
 	},
 
 	// Define start sequence.
