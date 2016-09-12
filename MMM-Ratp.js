@@ -8,9 +8,10 @@
  * MIT Licensed.
  */
  
-Module.register("MMM-Test",{
+Module.register("MMM-Ratp",{
 
 	transports:[],
+	lineInfo:"",
 
 	// Define module defaults
 	defaults: {
@@ -24,7 +25,7 @@ Module.register("MMM-Test",{
 
 	// Define required scripts.
 	getStyles: function() {
-		return ["MMM-Ratp.css"];
+		return [this.file("css/MMM-Ratp.css")];
 	},
 
 	// Define start sequence.
@@ -59,17 +60,30 @@ Module.register("MMM-Test",{
 		var table = document.createElement("table");
 		table.className = "small";
 
+		var rowtitle = document.createElement("th");
+		var title = document.createElement("td");
+		title.innerHTML = this.lineInfo;
+		rowtitle.appendChild(title);
+		
+
+		table.appendChild(rowtitle);
+
 		for (var t in this.transports) {
 			var transports = this.transports[t];
 
 			var row = document.createElement("tr");
-			table.appendChild(row);
 
-			var transportNameCell = document.createElement("td");
-			transportNameCell.innerHTML = trains.name;
+			/*var transportNameCell = document.createElement("td");
+			transportNameCell.innerHTML = transports.name;
 			transportNameCell.className = "align-right bright";
-			row.appendChild(transportNameCell);
-			
+			row.appendChild(transportNameCell);*/
+
+			var transportTimeCell = document.createElement("td");
+			transportTimeCell.innerHTML = transports.time;
+			transportTimeCell.className = "align-right bright";
+			row.appendChild(transportTimeCell);
+
+			table.appendChild(row);
 		}
 
 		return table;
@@ -79,9 +93,11 @@ Module.register("MMM-Test",{
 		if (notification === "TRANSPORTS"){
 			if(this.config.debugging) {			
 				Log.info("Transports arrived");
-				Log.info(payload);
+				Log.info(payload.transports);
+				Log.info(payload.lineInfo);
 			}
-			this.transports = payload;
+			this.transports = payload.transports;
+			this.lineInfo = payload.lineInfo;
 			this.loaded = true;
 			this.updateDom(this.config.animationSpeed);
 		}

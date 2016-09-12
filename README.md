@@ -1,5 +1,6 @@
 # MMM-Ratp
 Local transport in Paris module for MagicMirror², a projet created by Michael Teeuw (https://github.com/MichMich/MagicMirror)
+This module is working thanks to the help of [fewieden](https://github.com/fewieden)
 
 It will give the timetable of the next bus/rer/metro of the station of your choice
 
@@ -33,6 +34,18 @@ Each URL listed before will help you to get the type of the desired line, the ID
 Then, you must find the station you want to watch out. You need to find your line API and suffix the URL with the "stations" keyword: [http://api-ratp.pierre-grimaud.fr/v2/[TRANSPORT TYPE]/[TRANSPORT LINE]/stations]()
 
 Example: http://api-ratp.pierre-grimaud.fr/v2/bus/176/stations
+
+The final configuration should look like this
+```
+{		       
+     module: 'MMM-Ratp',		        
+     position: 'top_right',			
+     config:{						
+         apiURL:'http://api-ratp.pierre-grimaud.fr/v2/bus/176/stations/5138?destination=pont+de+neuilly' // more info about API documentation : https://github.com/pgrimaud/horaires-ratp-api			
+        }
+}
+```
+
 
 
 # Samples 

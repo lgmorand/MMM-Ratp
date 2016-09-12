@@ -1,6 +1,6 @@
 {
   "name": "MMM-Ratp",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Local transport in Paris (France) module for MagicMirror",
   "repository": {
     "type": "git",
@@ -24,6 +24,7 @@
   },
   "homepage": "https://github.com/lgmorand/MMM-Ratp#readme",
   "dependencies": {
-    "unirest": "latest"
+    "unirest": "latest",
+    "node-forge": "latest"
     }
 }
