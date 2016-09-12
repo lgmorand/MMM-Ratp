@@ -36,8 +36,7 @@ module.exports = NodeHelper.create({
 		    unirest.get(url)
 		    .end(function (r) {
 		    	if (r.error) {
-		    		self.updateDom(this.config.animationSpeed);
-		    		// console.log(self.name + " : " + r.error);
+		    		console.log(self.name + " : " + r.error);
 		    		retry = false;
 		    	}
 		    	else {
