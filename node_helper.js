@@ -25,7 +25,7 @@ module.exports = NodeHelper.create({
 		 * Calls processTransports on succesfull response.
 		 */
 		updateTimetable: function() {
-			var url = this.config.apiURL 
+			var url = this.config.apiURL;
 			var self = this;
 			var retry = false;
 
@@ -96,14 +96,14 @@ module.exports = NodeHelper.create({
 		socketNotificationReceived: function(notification, payload) {
 			console.log("Notif received: " + notification);
 			const self = this;
+		  	if (notification === 'CONFIG' && this.started == false) {
+		    	this.config = payload;
+		    	this.started = true;
+		    	self.scheduleUpdate(this.config.initialLoadDelay);
+		    }
 			if(this.config.debugging) {
 				console.log("Notif received: " + notification);
 				console.log(payload);
 			}
-		  if (notification === 'CONFIG' && this.started == false) {
-		    this.config = payload;	     
-		    this.started = true;
-		    self.scheduleUpdate(this.config.initialLoadDelay);
-		    };
-		  }
+		}
 });
