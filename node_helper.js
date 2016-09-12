@@ -67,7 +67,8 @@ module.exports = NodeHelper.create({
 				var nextTransport = data.response.schedules[i];
 
 				this.transports.push({
-								next: nextTransport.message
+					name: nextTransport.destination,
+					time: nextTransport.message
 				});
 			}
 			this.loaded = true;

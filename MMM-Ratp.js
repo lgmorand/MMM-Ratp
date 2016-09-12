@@ -63,13 +63,18 @@ Module.register("MMM-Ratp",{
 			var transports = this.transports[t];
 
 			var row = document.createElement("tr");
-			table.appendChild(row);
 
 			var transportNameCell = document.createElement("td");
-			transportNameCell.innerHTML = trains.name;
+			transportNameCell.innerHTML = transports.name;
 			transportNameCell.className = "align-right bright";
 			row.appendChild(transportNameCell);
-			
+
+			var transportTimeCell = document.createElement("td");
+			transportTimeCell.innerHTML = transports.time;
+			transportTimeCell.className = "align-right bright";
+			row.appendChild(transportTimeCell);
+
+			table.appendChild(row);
 		}
 
 		return table;
