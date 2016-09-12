@@ -73,11 +73,6 @@ Module.register("MMM-Ratp",{
 
 			var row = document.createElement("tr");
 
-			/*var transportNameCell = document.createElement("td");
-			transportNameCell.innerHTML = transports.name;
-			transportNameCell.className = "align-right bright";
-			row.appendChild(transportNameCell);*/
-
 			var transportTimeCell = document.createElement("td");
 			transportTimeCell.innerHTML = transports.time;
 			transportTimeCell.className = "align-right bright";
