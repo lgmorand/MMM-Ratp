@@ -25,21 +25,18 @@ module.exports = NodeHelper.create({
 		 * Calls processTransports on succesfull response.
 		 */
 		updateTimetable: function() {
-			var url = this.config.apiURL 
+			var url = this.config.apiURL;
 			var self = this;
 			var retry = false;
 
-			if(this.config.debugging) {			
-				Log.info("Function updateTimeTable");
+			if(this.config.debugging) {
+				console.log("Function updateTimeTable");
 			}
 
-		    unirest.post(url)
-		   
-		    .send(JSON.stringify(data))
+		    unirest.get(url)
 		    .end(function (r) {
 		    	if (r.error) {
-		    		self.updateDom(this.config.animationSpeed);
-		    		// console.log(self.name + " : " + r.error);
+		    		console.log(self.name + " : " + r.error);
 		    		retry = false;
 		    	}
 		    	else {
@@ -57,19 +54,20 @@ module.exports = NodeHelper.create({
 		 * Uses the received data to set the various values.
 		 */
 		processTransports: function(data) {
-			if(this.config.debugging) {			
-				Log.info("Processing transports:" + data);
+			if(this.config.debugging) {
+				console.log("Processing transports:" + data);
 			}
 
 			this.transports = [];
 		
 		    this.lineInfo = "test"; //data.informations.type + " " + data.informations.line + " (vers " + data.informations.destination.name + ")";
-			for (var i = 0, count = data.schedules.length; i < count; i++) {
+			for (var i = 0, count = data.response.schedules.length; i < count; i++) {
 
-				var nextTransport = data.schedules[i];
+				var nextTransport = data.response.schedules[i];
 
 				this.transports.push({
-								next: nextTransport.message
+					name: nextTransport.destination,
+					time: nextTransport.message
 				});
 			}
 			this.loaded = true;
@@ -94,16 +92,16 @@ module.exports = NodeHelper.create({
 		},
 
 		socketNotificationReceived: function(notification, payload) {
-		  Log.info("Notif received: " + notification);
+			console.log("Notif received: " + notification);
 			const self = this;
-			if(this.config.debugging) {			
-				Log.info("Notif received: " + notification);
-				Log.info(payload);
+		  	if (notification === 'CONFIG' && this.started == false) {
+		    	this.config = payload;
+		    	this.started = true;
+		    	self.scheduleUpdate(this.config.initialLoadDelay);
+		    }
+			if(this.config.debugging) {
+				console.log("Notif received: " + notification);
+				console.log(payload);
 			}
-		  if (notification === 'CONFIG' && this.started == false) {
-		    this.config = payload;	     
-		    this.started = true;
-		    self.scheduleUpdate(this.config.initialLoadDelay);
-		    };
-		  }
+		}
 });
