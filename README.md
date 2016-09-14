@@ -1,6 +1,6 @@
 # MMM-Ratp
 Local transport in Paris module for MagicMirror², a projet created by Michael Teeuw (https://github.com/MichMich/MagicMirror)
-This module is working thanks to the help of [fewieden](https://github.com/fewieden)
+This module is working thanks to the great help of [fewieden](https://github.com/fewieden)
 
 It will give the timetable of the next bus/rer/metro of the station of your choice
 
@@ -46,11 +46,10 @@ The final configuration should look like this
 }
 ```
 
+# Screenshot 
 
-
-# Samples 
-
-Here are some screenshot
+Here are some screenshots
+![demo](http://github.com/lgmorand/MMM-Ratp/master/screenhots/ratp.png)
 
 
 # Further information and support 

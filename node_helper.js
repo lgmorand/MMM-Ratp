@@ -33,21 +33,38 @@ module.exports = NodeHelper.create({
 				console.log("Function updateTimeTable");
 			}
 
+			// calling this API
 		    unirest.get(url)
 		    .end(function (r) {
 		    	if (r.error) {
 		    		console.log(self.name + " : " + r.error);
-		    		retry = false;
+		    		retry = true;
 		    	}
 		    	else {
-		    		// console.log("body: ", JSON.stringify(r.body));
+					if(this.config.debugging) console.log("body: ", JSON.stringify(r.body));
 		    		self.processTransports(r.body);
 		    	}
 
 		    	if (retry) {
-					self.scheduleUpdate((self.loaded) ? -1 : this.config.retryDelay);
+					if(this.config.debugging) self.scheduleUpdate((self.loaded) ? -1 : this.config.retryDelay);
 				}
 		    });
+		},
+		// Help to retrieve a type which can be directly displayed
+		getSanitizedName:function(type)
+		{
+			var t= "";
+				switch(type)
+				{
+					case "bus": t= "Bus"; break; 
+					case "rers": t= "RER";break; 
+					case "tramways": t= "Tramway";break; 
+					case "noctiliens": t= "Noctilien";break; 
+					case "metros": t= "Metro";break; 
+					default: t= "";
+				}
+
+			return t;
 		},
 
 		/* processTransports(data)
@@ -73,6 +90,7 @@ module.exports = NodeHelper.create({
 			this.loaded = true;
 			this.sendSocketNotification("TRANSPORTS", {transports:this.transports, lineInfo: this.lineInfo});
 		},
+		
 
 		/* scheduleUpdate()
 		 * Schedule next update.

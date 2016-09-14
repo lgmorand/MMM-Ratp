@@ -16,11 +16,11 @@ Module.register("MMM-Ratp",{
 	// Define module defaults
 	defaults: {
 		useRealtime: true,
-		updateInterval: 1 * 60 * 1000, // Update every minute.
+		updateInterval: 1 * 30 * 1000, // Update 30 secs
 		animationSpeed: 2000,
 		debugging: true,
+		retryDelay: 1 * 10 * 1000,
         initialLoadDelay: 0, // start delay seconds.
-		//apiURL: 'http://api-ratp.pierre-grimaud.fr/v2/bus/176/stations/5138?destination=pont+de+neuilly' // more info about API documentation : https://github.com/pgrimaud/horaires-ratp-api
 	},
 
 	// Define required scripts.
@@ -42,8 +42,8 @@ Module.register("MMM-Ratp",{
 		var wrapper = document.createElement("div");
 
 		if (this.config.apiURL === "") {
-			wrapper.innerHTML = "Please set the correct API URL: " + this.name + ".";
-			wrapper.className = "dimmed light small";
+			wrapper.innerHTML = "Please set the correct API URL in the config of: " + this.name + ".";
+			wrapper.className = "dimmed light small ratptransport red";
 			return wrapper;
 		}
 
@@ -53,21 +53,17 @@ Module.register("MMM-Ratp",{
 			return wrapper;
 		}
 
-		if(this.config.debugging) {			
-				Log.info("Generating Dom");
-			}
-
 		var table = document.createElement("table");
-		table.className = "small";
+		table.className ="small";
 
+		// creating title of the timetable
 		var rowtitle = document.createElement("th");
 		var title = document.createElement("td");
 		title.innerHTML = this.lineInfo;
 		rowtitle.appendChild(title);
-		
-
 		table.appendChild(rowtitle);
 
+		// adding next schedules
 		for (var t in this.transports) {
 			var transports = this.transports[t];
 
@@ -83,13 +79,15 @@ Module.register("MMM-Ratp",{
 
 		return table;
 	},
+
+	// using the results retrieved for the API call
 	socketNotificationReceived: function(notification, payload) {
 		Log.info("Notif:" + notification);
 		if (notification === "TRANSPORTS"){
 			if(this.config.debugging) {			
 				Log.info("Transports arrived");
-				Log.info(payload.transports);
 				Log.info(payload.lineInfo);
+				Log.info(payload.transports);
 			}
 			this.transports = payload.transports;
 			this.lineInfo = payload.lineInfo;
