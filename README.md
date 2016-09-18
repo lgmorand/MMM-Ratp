@@ -2,7 +2,7 @@
 Local transport in Paris module for MagicMirror², a projet created by Michael Teeuw (https://github.com/MichMich/MagicMirror)
 This module is working thanks to the great help of [fewieden](https://github.com/fewieden)
 
-It will give the timetable of the next bus/rer/metro of the station of your choice
+It gives the timetable of the next bus/rer/metro of the station of your choice
 
 
 # RATP OpenData 
@@ -15,7 +15,7 @@ The API is available here and this module is based on this API: http://api-ratp.
 
 # Installation 
 
-
+Clone the git in the /modules folder of MM and run the "npm install" command
 
 
 # Configuration 
@@ -49,7 +49,8 @@ The final configuration should look like this
 # Screenshot 
 
 Here are some screenshots
-![demo](http://github.com/lgmorand/MMM-Ratp/master/screenhots/ratp.png)
+
+![demo](https://raw.githubusercontent.com/lgmorand/MMM-Ratp/master/screenshots/ratp.png)
 
 
 # Further information and support 
