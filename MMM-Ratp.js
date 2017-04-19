@@ -9,14 +9,14 @@
 Module.register("MMM-Ratp", {
 
     transports: [],
-    lineInfo: "",
+    lineInfo: "Module RATP",
 
     // Define module defaults
     defaults: {
         useRealtime: true,
         updateInterval: 1 * 30 * 1000, // Update 30 secs
         animationSpeed: 2000,
-        debugging: true,
+        debugging: false,
         retryDelay: 1 * 10 * 1000,
         initialLoadDelay: 0, // start delay seconds.
     },
@@ -45,6 +45,12 @@ Module.register("MMM-Ratp", {
             return wrapper;
         }
 
+         if (this.config.uniqueID === "") {
+            wrapper.innerHTML = "Please set unique ID in the config of: " + this.name + ".";
+            wrapper.className = "dimmed light small ratptransport red";
+            return wrapper;
+        }
+
         if (!this.loaded) {
             wrapper.innerHTML = "Loading connections ...";
             wrapper.className = "dimmed light small";
@@ -55,18 +61,16 @@ Module.register("MMM-Ratp", {
         table.className = "small";
 
         // creating title of the timetable
-        var rowtitle = document.createElement("th");
-        var title = document.createElement("td");
-        title.innerHTML = this.lineInfo;
-        rowtitle.appendChild(title);
-        table.appendChild(rowtitle);
+        // var rowtitle = document.createElement("th");
+        // var title = document.createElement("td");
+        // title.innerHTML = this.lineInfo;
+        // rowtitle.appendChild(title);
+        // table.appendChild(rowtitle);
 
         // adding next schedules
         for (var t in this.transports) {
             var transports = this.transports[t];
-
             var row = document.createElement("tr");
-
             var transportTimeCell = document.createElement("td");
             transportTimeCell.innerHTML = transports.time;
             transportTimeCell.className = "align-right bright";
@@ -83,14 +87,18 @@ Module.register("MMM-Ratp", {
         Log.info("Notif:" + notification);
         if (notification === "TRANSPORTS") {
             if (this.config.debugging) {
-                Log.info("Transports arrived");
+                Log.info("Transports received");
                 Log.info(payload.lineInfo);
                 Log.info(payload.transports);
             }
-            this.transports = payload.transports;
-            this.lineInfo = payload.lineInfo;
-            this.loaded = true;
-            this.updateDom(this.config.animationSpeed);
+
+            if(this.config.uniqueID == payload.uniqueID) // just in case of multi instances
+            {
+                this.transports = payload.transports;
+                this.lineInfo = payload.lineInfo;
+                this.loaded = true;
+                this.updateDom(this.config.animationSpeed);
+            }
         }
     }
 });

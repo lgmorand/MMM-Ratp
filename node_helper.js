@@ -18,8 +18,6 @@ module.exports = NodeHelper.create({
         console.log("MMM-Ratp- NodeHelper started");
     },
 
-
-
     /* updateTimetable(transports)
      * Calls processTransports on succesfull response.
      */
@@ -27,7 +25,6 @@ module.exports = NodeHelper.create({
         var url = this.config.apiURL;
         var self = this;
         var retry = false;
-
 
         // calling this API
         unirest.get(url)
@@ -45,7 +42,8 @@ module.exports = NodeHelper.create({
                 }
             });
     },
-    // Help to retrieve a type which can be directly displayed
+
+    // Help to retrieve a type which can be directly displayed inside the title of the module
     getSanitizedName: function(type) {
         var t = "";
         switch (type) {
@@ -91,10 +89,10 @@ module.exports = NodeHelper.create({
         this.loaded = true;
         this.sendSocketNotification("TRANSPORTS", {
             transports: this.transports,
-            lineInfo: this.lineInfo
+            lineInfo: this.lineInfo,
+            uniqueID: this.config.uniqueID
         });
     },
-
 
     /* scheduleUpdate()
      * Schedule next update.
