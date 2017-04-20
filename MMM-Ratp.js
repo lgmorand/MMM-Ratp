@@ -9,16 +9,17 @@
 Module.register("MMM-Ratp", {
 
     transports: [],
-    lineInfo: "Module RATP",
+    lineInfo: "",
 
     // Define module defaults
     defaults: {
         useRealtime: true,
-        updateInterval: 1 * 30 * 1000, // Update 30 secs
+        updateInterval: 1 * 10 * 1000, // Update 30 secs
         animationSpeed: 2000,
         debugging: false,
         retryDelay: 1 * 10 * 1000,
         initialLoadDelay: 0, // start delay seconds.
+        id: ''
     },
 
     // Define required scripts.
@@ -26,11 +27,17 @@ Module.register("MMM-Ratp", {
         return [this.file("css/MMM-Ratp.css")];
     },
 
+    getHeader:function()
+    {
+       return this.data.header = this.lineInfo;
+    },
+
     // Define start sequence.
     start: function() {
         Log.info("Starting module: " + this.name);
-        if (this.config.debugging) Log.info("DEBUG mode activated");
-        this.sendSocketNotification('CONFIG', this.config);
+        var self = this;
+        // if (this.config.debugging) Log.info("DEBUG mode activated");
+        this.sendSocketNotification('CONFIG', self.config);
         this.loaded = false;
         this.updateTimer = null;
     },
@@ -60,13 +67,6 @@ Module.register("MMM-Ratp", {
         var table = document.createElement("table");
         table.className = "small";
 
-        // creating title of the timetable
-        // var rowtitle = document.createElement("th");
-        // var title = document.createElement("td");
-        // title.innerHTML = this.lineInfo;
-        // rowtitle.appendChild(title);
-        // table.appendChild(rowtitle);
-
         // adding next schedules
         for (var t in this.transports) {
             var transports = this.transports[t];
@@ -87,12 +87,14 @@ Module.register("MMM-Ratp", {
         Log.info("Notif:" + notification);
         if (notification === "TRANSPORTS") {
             if (this.config.debugging) {
-                Log.info("Transports received");
-                Log.info(payload.lineInfo);
-                Log.info(payload.transports);
-            }
+                Log.info("\r\nTransports received");
+                Log.info("\r\n"+payload.lineInfo);
+                Log.info("\r\n"+payload.transports);
+                Log.info("\r\n"+payload.uniqueID);
+                Log.info("\r\n"+this.config.uniqueID);
+             }
 
-            if(this.config.uniqueID == payload.uniqueID) // just in case of multi instances
+            if(this.config.apiURL === payload.uniqueID) // just in case of multi instances
             {
                 this.transports = payload.transports;
                 this.lineInfo = payload.lineInfo;

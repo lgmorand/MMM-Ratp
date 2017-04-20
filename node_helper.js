@@ -48,19 +48,19 @@ module.exports = NodeHelper.create({
         var t = "";
         switch (type) {
             case "bus":
-                t = "Bus";
+                t = "<i class='fa fa-bus' aria-hidden='true'></i> Bus";
                 break;
             case "rers":
-                t = "RER";
+                t = "<i class='fa fa-train' aria-hidden='true'></i> RER";
                 break;
             case "tramways":
-                t = "Tramway";
+                t = "<i class='fa fa-subway' aria-hidden='true'></i> Tramway";
                 break;
             case "noctiliens":
-                t = "Noctilien";
+                t = "<i class='fa fa-bus' aria-hidden='true'></i> Noctilien";
                 break;
             case "metros":
-                t = "Metro";
+                t = "<i class='fa fa-train' aria-hidden='true'></i> Metro";
                 break;
             default:
                 t = "";
@@ -90,7 +90,7 @@ module.exports = NodeHelper.create({
         this.sendSocketNotification("TRANSPORTS", {
             transports: this.transports,
             lineInfo: this.lineInfo,
-            uniqueID: this.config.uniqueID
+            uniqueID: this.config.apiURL
         });
     },
 
@@ -113,10 +113,10 @@ module.exports = NodeHelper.create({
     },
 
     socketNotificationReceived: function(notification, payload) {
-        if (payload.debugging) {
-            console.log("Notif received: " + notification);
-            console.log(payload);
-        }
+        // if (payload.debugging) {
+        //     console.log("Notif received: " + notification);
+        //     console.log(payload);
+        // }
 
         const self = this;
         if (notification === 'CONFIG' && this.started == false) {
