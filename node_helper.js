@@ -21,8 +21,7 @@ module.exports = NodeHelper.create({
     /* updateTimetable(transports)
      * Calls processTransports on succesfull response.
      */
-    updateTimetable: function() {
-        var url = this.config.apiURL;
+    updateTimetable: function(url) {
         var self = this;
         var retry = false;
 
@@ -33,7 +32,7 @@ module.exports = NodeHelper.create({
                     console.log(self.name + " : " + r.error);
                     retry = true;
                 } else {
-                    self.processTransports(r.body);
+                    self.processTransports(r.body, url);
                 }
 
                 if (retry) {
@@ -72,10 +71,8 @@ module.exports = NodeHelper.create({
     /* processTransports(data)
      * Uses the received data to set the various values.
      */
-    processTransports: function(data) {
-
+    processTransports: function(data, url) {
         this.transports = [];
-
         this.lineInfo = this.getSanitizedName(data.response.informations.type) + " " + data.response.informations.line + " (vers " + data.response.informations.destination.name + ")";
         for (var i = 0, count = data.response.schedules.length; i < count; i++) {
 
@@ -87,42 +84,24 @@ module.exports = NodeHelper.create({
             });
         }
         this.loaded = true;
+        
         this.sendSocketNotification("TRANSPORTS", {
             transports: this.transports,
             lineInfo: this.lineInfo,
-            uniqueID: this.config.apiURL
+            uniqueID: url
         });
     },
 
-    /* scheduleUpdate()
-     * Schedule next update.
-     * argument delay number - Millis econds before next update. If empty, this.config.updateInterval is used.
-     */
-    scheduleUpdate: function(delay) {
-        var nextLoad = this.config.updateInterval;
-
-        if (typeof delay !== "undefined" && delay > 0) {
-            nextLoad = delay;
-        }
-
-        var self = this;
-        clearTimeout(this.updateTimer);
-        this.updateTimer = setInterval(function() {
-            self.updateTimetable();
-        }, nextLoad);
-    },
 
     socketNotificationReceived: function(notification, payload) {
-        // if (payload.debugging) {
-        //     console.log("Notif received: " + notification);
-        //     console.log(payload);
-        // }
-
+         if (payload.debugging) {
+            console.log("Notif received: " + notification);
+            console.log(payload);
+        }
         const self = this;
-        if (notification === 'CONFIG' && this.started == false) {
-            this.config = payload;
-            this.started = true;
-            self.scheduleUpdate(this.config.initialLoadDelay);
+
+        if (notification === 'GETDATA') {
+            self.updateTimetable(payload.apiURL);
         }
     }
 });
