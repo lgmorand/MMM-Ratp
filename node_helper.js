@@ -37,7 +37,7 @@ module.exports = NodeHelper.create({
 
                 if (retry) {
                     console.log("retrying");
-                    self.scheduleUpdate((self.loaded) ? -1 : this.config.retryDelay);
+                    // self.scheduleUpdate((self.loaded) ? -1 : this.config.retryDelay);
                 }
             });
     },
