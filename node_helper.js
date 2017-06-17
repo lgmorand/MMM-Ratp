@@ -73,10 +73,10 @@ module.exports = NodeHelper.create({
      */
     processTransports: function(data, url) {
         this.transports = [];
-        this.lineInfo = this.getSanitizedName(data.response.informations.type) + " " + data.response.informations.line + " (vers " + data.response.informations.destination.name + ")";
-        for (var i = 0, count = data.response.schedules.length; i < count; i++) {
+        this.lineInfo = "";
+        for (var i = 0, count = data.result.schedules.length; i < count; i++) {
 
-            var nextTransport = data.response.schedules[i];
+            var nextTransport = data.result.schedules[i];
 
             this.transports.push({
                 name: nextTransport.destination,

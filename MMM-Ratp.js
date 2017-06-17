@@ -28,7 +28,7 @@ Module.register("MMM-Ratp", {
 
     getHeader:function()
     {
-       return this.data.header = this.lineInfo;
+       return this.data.header =  self.config.header;
     },
 
     // Define start sequence.

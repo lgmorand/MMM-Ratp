@@ -18,7 +18,7 @@ This module uses some features of Magic Mirror like getHeader() and thus require
 A law was voted to force public companies to open some of their data to the public. If the RATP opened their data for years, some data like real-time timetable are not avaiable for the moment (they may arrive during 2017 (source RATP)).
 Until then, the only way to get real time data is to parse the RATP WAP website. A french developer (Pierre Grimaud) developed a custom API to interrogate this WAP website in a easy way.
 
-The API is available here and this module is based on this API: [http://api-ratp.pierre-grimaud.fr](http://api-ratp.pierre-grimaud.fr)
+The API is available here and this module is based on this API: [https://api-ratp.pierre-grimaud.fr/v3/](https://api-ratp.pierre-grimaud.fr/v3/)
 
 ## Installation
 
@@ -30,17 +30,17 @@ To get bus timetable, you'll need to specify the transport line, the station and
 
 First you need to specify which kind of line of transport you want to retrieve. You can have:
 
-- Bus (transporttype: bus, [bus lines](http://api-ratp.pierre-grimaud.fr/v2/bus/))
-- RER (transporttype: rers, [RER lines](http://api-ratp.pierre-grimaud.fr/v2/rers/))
-- Metro (metros, [metros lines](http://api-ratp.pierre-grimaud.fr/v2/metros/))
-- Noctilien (noctilien, [noctilien lines](http://api-ratp.pierre-grimaud.fr/v2/noctiliens/))
-- Tramway (tramways, [tramways lines](http://api-ratp.pierre-grimaud.fr/v2/tramways/))
+- Bus
+- RER
+- Metro
+- Noctilien
+- Tramway
 
-Each URL listed before will help you to get the type of the desired line, the ID of the line and even the direction which will be used to build the API URL
+Each URL listed before will help you to get the type of the desired line, the ID of the line and even the direction which will be used to build the API URL (A or R)
 
-Then, you must find the station you want to watch out. You need to find your line API and suffix the URL with the "stations" keyword: [http://api-ratp.pierre-grimaud.fr/v2/[TRANSPORT TYPE]/[TRANSPORT LINE]/stations](http://api-ratp.pierre-grimaud.fr/v2/[TRANSPORT TYPE]/[TRANSPORT LINE]/stations)
+Then, you must find the station you want to watch out. You need to find your line API and suffix the URL with the "stations" keyword: [https://api-ratp.pierre-grimaud.fr/v3/stations[TRANSPORT TYPE]/[TRANSPORT LINE]](https://api-ratp.pierre-grimaud.fr/v3/stations/[TRANSPORT TYPE]/[TRANSPORT LINE])
 
-Example: [http://api-ratp.pierre-grimaud.fr/v2/bus/176/stations](http://api-ratp.pierre-grimaud.fr/v2/bus/176/stations)
+Example: [https://api-ratp.pierre-grimaud.fr/v3//bus/176/stations](https://api-ratp.pierre-grimaud.fr/v3//bus/176/stations)
 
 The final configuration should look like this
 
@@ -48,9 +48,9 @@ The final configuration should look like this
 {
      module: 'MMM-Ratp',
      position: 'top_right',
-     header: 'RATP', // please leave this value, it will be replaced anyway
+     header: 'Bus 163 (vers Nanterre)', // the title that will be displayed on top on the widget
      config:{
-         apiURL:'http://api-ratp.pierre-grimaud.fr/v2/bus/176/stations/5138?destination=pont+de+neuilly', // more info about API documentation : https://github.com/pgrimaud/horaires-ratp-api
+         apiURL:'https://api-ratp.pierre-grimaud.fr/v3/schedules/bus/163/dumont+d\'urville+++belgique/A', // more info about API documentation : https://github.com/pgrimaud/horaires-ratp-api
         }
 }
 ```
@@ -76,11 +76,11 @@ The first thing to do in to set a debbuging setting in the config file because i
      header: 'RATP' // please leave this value, it will be replaced anyway,
      config:{
          debugging:true,
-         apiURL:'http://api-ratp.pierre-grimaud.fr/v2/bus/176/stations/5138?destination=pont+de+neuilly',
+         apiURL:'https://api-ratp.pierre-grimaud.fr/v3/schedules/bus/163/dumont+d\'urville+++belgique/A',
         }
 }
 ```
 
 ### My module displays: "loading connections..."
 
-After few seconds (refresh is made every 60 sec), the module will contact an api and then load the data. In case the loading fails, then the message "loading connections" remains present. The first thing to try is to open the URL of the API in your browser and see if a JSON response is diplayed. If not, your issue if here. If yes, please contact me on the forum and I'll try to help you.
+After few seconds (refresh is made every 30 sec, you can change it in MMM-Ratp.js), the module will contact an api and then load the data. In case the loading fails, then the message "loading connections" remains present. The first thing to try is to open the URL of the API in your browser and see if a JSON response is diplayed. If not, your issue if here because your URL is wrong. If yes, please contact me on the forum and I'll try to help you.
